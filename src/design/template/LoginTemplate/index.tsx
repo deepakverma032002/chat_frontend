@@ -10,7 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/design/atoms/card";
 import { Button } from "@/design/atoms/button";
 import { useGoogleLogin } from "@react-oauth/google";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import { revalidateUser } from "@/utils/action";
 
@@ -38,6 +37,7 @@ const LoginTemplate = () => {
     },
     flow: "auth-code",
     redirect_uri: process.env.NEXT_PUBLIC_FRONTEND_URL,
+    ux_mode: "redirect",
   });
 
   const formik = useFormik({
