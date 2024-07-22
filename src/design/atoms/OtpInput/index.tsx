@@ -18,6 +18,7 @@ const OtpInput: React.FC<OtpInputProps> = ({
   label,
   labelClassName,
   error,
+  onBlur,
 }) => {
   return (
     <div className="mb-4">
@@ -33,6 +34,7 @@ const OtpInput: React.FC<OtpInputProps> = ({
       )}
       <InputOTP
         maxLength={length}
+        onBlur={onBlur}
         onChange={(val: string) => onOtpSubmit?.(val)}
       >
         <InputOTPGroup>
@@ -41,7 +43,7 @@ const OtpInput: React.FC<OtpInputProps> = ({
           ))}
         </InputOTPGroup>
       </InputOTP>
-
+      {/* <input type="hidden" onBlur={() => onOtpSubmit?.("")} /> */}
       {error ? (
         <div>
           <p className="text-sm text-red-600">{error}</p>

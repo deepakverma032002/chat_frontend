@@ -32,7 +32,7 @@ const VerificationTemplate = () => {
         return isOtpGet
           ? Yup.string()
               .required("Otp is required")
-              .length(6, "Otp must be 6 digits")
+              .min(6, "Otp must be 6 digits")
           : Yup.string().notRequired();
       }),
     }),
@@ -101,8 +101,6 @@ const VerificationTemplate = () => {
                   }
                   onOtpSubmit={(value) => {
                     formik.setFieldValue("otp", value);
-                    formik.setFieldTouched("otp", true);
-                    formik.setFieldError("otp", "");
                   }}
                 />
               )}
