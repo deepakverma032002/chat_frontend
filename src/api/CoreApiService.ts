@@ -3,8 +3,7 @@ import applyCaseMiddleware, {
   ApplyCaseMiddlewareOptions,
 } from "axios-case-converter";
 import { BASE_API_ENDPOINT } from "@/utils/constant";
-
-type AnyObject = { [key: string]: any };
+import { getCookie } from "cookies-next";
 
 const options: ApplyCaseMiddlewareOptions = {
   caseMiddleware: {
@@ -15,7 +14,9 @@ const options: ApplyCaseMiddlewareOptions = {
 const axios = applyCaseMiddleware(
   Axios.create({
     baseURL: BASE_API_ENDPOINT,
-    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
   }),
   options
 );

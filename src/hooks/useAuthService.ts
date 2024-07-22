@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
+import { setCookie } from "cookies-next";
 import { revalidateUser } from "@/utils/action";
 
 const useLogin = () => {
@@ -17,8 +18,12 @@ const useLogin = () => {
         }
       }
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       toast.success("Login successfully");
+      setCookie("token", res.result.token, {
+        path: "/",
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
+      });
       revalidateUser("/");
     },
   });
@@ -31,7 +36,6 @@ const useSingUp = () => {
 };
 
 const useLogout = () => {
-  const router = useRouter();
   return useMutation({
     mutationFn: () => authService.logout(),
     onSuccess: () => {
