@@ -1,3 +1,4 @@
+import { useGoogleOneTapLogin } from "@react-oauth/google";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 
 interface AuthContextProps extends PropsWithChildren {
@@ -12,7 +13,12 @@ const AuthContextProvider: React.FC<AuthContextProps> = ({
   session,
 }) => {
   const [userSession, setUserSession] = useState<User | undefined>();
-
+  // useGoogleOneTapLogin({
+  //   onSuccess: (res) => {
+  //     console.log(res);
+  //   },
+  //   disabled: !!userSession,
+  // });
   useEffect(() => {
     setUserSession(session);
   }, [session]);

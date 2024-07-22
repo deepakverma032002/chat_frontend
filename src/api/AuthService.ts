@@ -44,6 +44,13 @@ class AuthService {
   async getPreSignedUrl() {
     return CoreApiService.get<{ result: { url: string } }>("/upload-image");
   }
+
+  async googleAuthService(data: any) {
+    return CoreApiService.post<{ result: { token: string } }>(
+      "/user/auth/google",
+      data
+    );
+  }
 }
 
 const authService = new AuthService();

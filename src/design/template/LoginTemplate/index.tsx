@@ -1,16 +1,43 @@
 "use client";
 
 import Input from "@/design/atoms/Input";
-import { useLogin } from "@/hooks/useAuthService";
+import { useGoogleAuth, useLogin } from "@/hooks/useAuthService";
 import { useFormik } from "formik";
 import Link from "next/link";
 import React from "react";
 import * as Yup from "yup";
 import { Card, CardContent, CardHeader, CardTitle } from "@/design/atoms/card";
 import { Button } from "@/design/atoms/button";
+import { useGoogleLogin } from "@react-oauth/google";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
+import { revalidateUser } from "@/utils/action";
 
 const LoginTemplate = () => {
   const { mutate: login, isPending } = useLogin();
+  const { mutate: googleSignUp } = useGoogleAuth();
+  const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      googleSignUp(
+        { authCode: tokenResponse.code, type: "login" },
+        {
+          onSuccess: (res) => {
+            toast.success("Login successfully");
+            setCookie("token", res.result.token, {
+              path: "/",
+              expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
+            });
+            revalidateUser("/");
+          },
+          onError: () => {
+            toast.error("Sign up failed with google");
+          },
+        }
+      );
+    },
+    flow: "auth-code",
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -68,7 +95,12 @@ const LoginTemplate = () => {
                 <Button type="submit" disabled={isPending}>
                   {isPending ? "Loading..." : "Login"}
                 </Button>
-                <Button className="gap-2" variant={"outline"} type="button">
+                <Button
+                  className="gap-2"
+                  variant={"outline"}
+                  type="button"
+                  onClick={() => googleLogin()}
+                >
                   <svg
                     className="text-lg"
                     stroke="currentColor"

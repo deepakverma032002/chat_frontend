@@ -1,7 +1,7 @@
 "use client";
 
 import Input from "@/design/atoms/Input";
-import { useLogin, useSingUp } from "@/hooks/useAuthService";
+import { useGoogleAuth, useLogin, useSingUp } from "@/hooks/useAuthService";
 import { useFormik } from "formik";
 import Link from "next/link";
 import React from "react";
@@ -12,14 +12,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/design/atoms/card";
 import { Button } from "@/design/atoms/button";
 import { useFileUpload } from "@/hooks/useFileUpload";
 import { Progress } from "@/design/atoms/progress";
-import { useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin, useGoogleOAuth } from "@react-oauth/google";
 
 const SignUpTemplate = () => {
   const { mutate: signup, isPending } = useSingUp();
   const router = useRouter();
+  const { mutate: googleSignUp } = useGoogleAuth();
 
   const googleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
+    onSuccess: (tokenResponse) => {
+      googleSignUp(
+        { authCode: tokenResponse.code, type: 'signup' },
+        {
+          onSuccess: () => {
+            toast.success("Sign up successfully");
+            router.push("/login");
+          },
+          onError: () => {
+            toast.error("Sign up failed with google");
+          },
+        }
+      );
+    },
+    flow: "auth-code",
   });
 
   const {

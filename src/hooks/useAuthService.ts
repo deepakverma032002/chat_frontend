@@ -60,10 +60,17 @@ const useGetVerificationCode = () => {
   });
 };
 
+const useGoogleAuth = () => {
+  return useMutation({
+    mutationFn: (data: any) => authService.googleAuthService(data),
+  });
+};
+
 export {
   useLogin,
   useSingUp,
   useLogout,
   useVerifyEmail,
   useGetVerificationCode,
+  useGoogleAuth,
 };

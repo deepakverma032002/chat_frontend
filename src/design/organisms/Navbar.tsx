@@ -31,17 +31,19 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="hidden lg:block">
-          <ul className="flex space-x-10 text-base font-bold text-black/60 dark:text-white">
-            <li className="hover:underline hover:underline-offset-4 hover:w-fit transition-all duration-100 ease-linear text-base font-medium">
-              <Link href="/">Home</Link>
-            </li>
-            <li className="hover:underline hover:underline-offset-4 hover:w-fit transition-all duration-100 ease-linear text-base font-medium">
-              <Link href="#">About</Link>
-            </li>
-            <li className="hover:underline hover:underline-offset-4 hover:w-fit transition-all duration-100 ease-linear text-base font-medium">
-              <Link href="#">Contact</Link>
-            </li>
-          </ul>
+          {isLogin && (
+            <ul className="flex space-x-10 text-base font-bold text-black/60 dark:text-white">
+              <li className="hover:underline hover:underline-offset-4 hover:w-fit transition-all duration-100 ease-linear text-base font-medium">
+                <Link href="/">Home</Link>
+              </li>
+              <li className="hover:underline hover:underline-offset-4 hover:w-fit transition-all duration-100 ease-linear text-base font-medium">
+                <Link href="#">About</Link>
+              </li>
+              <li className="hover:underline hover:underline-offset-4 hover:w-fit transition-all duration-100 ease-linear text-base font-medium">
+                <Link href="#">Contact</Link>
+              </li>
+            </ul>
+          )}
         </div>
         <div className="hidden lg:flex lg:items-center gap-x-2">
           {!isLogin ? (
