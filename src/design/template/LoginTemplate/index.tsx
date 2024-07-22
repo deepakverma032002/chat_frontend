@@ -36,7 +36,6 @@ const LoginTemplate = () => {
       );
     },
     flow: "auth-code",
-    // redirect_uri: process.env.NEXT_PUBLIC_FRONTEND_URL,
   });
 
   const formik = useFormik({
